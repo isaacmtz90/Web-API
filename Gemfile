@@ -5,6 +5,9 @@ gem 'puma'
 gem 'json'
 gem 'econfig'
 gem 'http'
+gem 'sinatra'
+gem 'sequel'
+gem 'hirb'
 
 gem 'meetupevents'
 
