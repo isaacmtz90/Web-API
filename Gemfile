@@ -8,6 +8,7 @@ gem 'http'
 gem 'sinatra'
 gem 'sequel'
 gem 'hirb'
+gem 'sqlite3'
 
 gem 'meetupevents'
 
