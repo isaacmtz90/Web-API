@@ -2,13 +2,11 @@
 require 'sinatra'
 require 'econfig'
 require 'meetupevents'
-require_relative './config/environment.rb'
+require_relative '../config/environment.rb'
 
 class EventsLocatorAPI < Sinatra::Base
-  include WordMagic
-
   # route to find groups based on coutry code and location text
-  get "/#{API_VER}/groups/meetup/:countrycode/:locationtextquery/?" do
+  get "/#{API_VER}/groups/:countrycode/:locationtextquery/?" do
     countrycode = params[:countrycode]
     locationtext = params[:locationtextquery]
     begin
@@ -17,14 +15,44 @@ class EventsLocatorAPI < Sinatra::Base
       # Check if first result matches provided country code, 404 if not
       parsed_response = JSON.parse(response.to_json)
       if parsed_response.first['country'] != countrycode.upcase
-        raise "country code does not match to query"
+        raise 'country code does not match to query'
       end
 
       content_type 'application/json'
       response.to_json
     rescue
-      halt 404, "Groups in country #{countrycode} at location #{locationtext} not found!"
+      halt 404, "Groups at#{countrycode} at#{locationtext} not found!"
     end
   end
+  # Body args (JSON) e.g.: {"url": "http://meetup.com/urlname"}
+  post "/#{API_VER}/group/" do
+    begin
+      body_params = JSON.parse request.body.read
+      meetup_group_url = body_params['url']
+      if Group.find(urlname: meetup_group_url)
+        halt 422, "Group #{meetup_group_url} already exists"
+      end
+      meetup_group = Meetup::Group.find(urlname: meetup_group_url)
 
+    rescue
+      content_type 'text/plain'
+      halt 400, "Group (url: #{meetup_group_url}) could not be found"
+    end
+    begin
+      group = Group.create(group_name: meetup_group.name,
+                           urlname: meetup_group.urlname,
+                           city: meetup_group.city,
+                           country_code: meetup_group.country)
+
+      content_type 'application/json'
+      { group_id: group.id,
+        name: group.group_name,
+        urlname: group.urlname,
+        city: group.city,
+        country_code: group.country_code }.to_json
+    rescue
+      content_type 'text/plain'
+      halt 500, "Cannot create group (id: #{meetup_group_url})"
+    end
+  end
 end

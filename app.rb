@@ -4,6 +4,7 @@ require 'econfig'
 require 'meetupevents'
 require_relative './config/environment.rb'
 
+# Main class
 class EventsLocatorAPI < Sinatra::Base
   extend Econfig::Shortcut
 
