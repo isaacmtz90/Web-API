@@ -7,6 +7,7 @@ gem 'json'
 gem 'econfig'
 gem 'http'
 gem 'sequel'
+gem 'pg'
 
 gem 'meetupevents'
 
