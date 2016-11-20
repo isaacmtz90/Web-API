@@ -9,6 +9,13 @@ gem 'http'
 gem 'sequel'
 gem 'pg'
 
+# refactoring gems
+gem 'roar'
+gem 'multi_json'
+gem 'dry-monads'
+gem 'dry-container'
+gem 'dry-transaction'
+
 gem 'meetupevents'
 
 group :development, :test do
