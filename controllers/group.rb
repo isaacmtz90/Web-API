@@ -26,26 +26,15 @@ class EventsLocatorAPI < Sinatra::Base
   end
   # Body args (JSON) e.g.: {"url": "http://meetup.com/urlname"}
   post "/#{API_VER}/group/" do
-    begin
-      body_params = JSON.parse request.body.read
-      meetup_group_url = body_params['url']
-      if Group.find(urlname: meetup_group_url)
-        halt 422, "Group #{meetup_group_url} already exists"
-      end
-      meetup_group = Meetup::Group.find(urlname: meetup_group_url)
+    body_params = JSON.parse request.body.read
+    meetup_group_url = body_params['url']
 
-    rescue
-      content_type 'text/plain'
-      halt 400, "Group (url: #{meetup_group_url}) could not be found"
-    end
-    begin
-      group = SaveGroupToDatabase(meetup_group)
+    CheckDatabase.call(meetup_group_url) #if url already in DB, will throw error 422
+    meetup_group = CheckAPI.call(meetup_group_url) #if WebAPI cannot find url, will throw error 400
 
-      content_type 'application/json'
-      GroupRepresenter.new(group).to_json
-    rescue
-      content_type 'text/plain'
-      halt 500, "Cannot create group (id: #{meetup_group_url})"
-    end
+    group = SaveGroupToDatabase.call(meetup_group) #if this cannot create group in DB, wil throw error 500
+
+    content_type 'application/json'
+    GroupRepresenter.new(group).to_json #display group in JSON
   end
 end
