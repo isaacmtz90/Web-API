@@ -7,7 +7,6 @@ gem 'json'
 gem 'econfig'
 gem 'http'
 gem 'sequel'
-gem 'pg'
 
 # refactoring gems
 gem 'roar'
@@ -28,6 +27,7 @@ group :development do
   gem 'flog'
   gem 'flay'
 end
+
 group :test do
   gem 'minitest'
   gem 'minitest-rg'
@@ -40,4 +40,8 @@ end
 group :development, :production do
   gem 'tux'
   gem 'hirb'
+end
+
+group :production do
+  gem 'pg'
 end
