@@ -39,10 +39,7 @@ class EventsLocatorAPI < Sinatra::Base
       halt 400, "Group (url: #{meetup_group_url}) could not be found"
     end
     begin
-      group = Group.create(group_name: meetup_group.name,
-                           urlname: meetup_group.urlname,
-                           city: meetup_group.city,
-                           country_code: meetup_group.country)
+      group = SaveGroupToDatabase(meetup_group)
 
       content_type 'application/json'
       GroupRepresenter.new(group).to_json
