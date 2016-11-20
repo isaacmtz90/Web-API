@@ -7,7 +7,7 @@ class CheckResponse
   def self.call(response, countrycode, locationtext)
     parsed_response = JSON.parse(response.to_json)
     if parsed_response.first['country'] != countrycode.upcase
-      Left(Errow.new(:not_found, "Groups at#{countrycode} at#{locationtext} not found!"))
+      Left(Error.new(:not_found, "Groups at#{countrycode} at#{locationtext} not found!"))
     else
       Right() # do nothing!
     end
