@@ -8,7 +8,7 @@ class CheckAPI
     if Meetup::Group.find(urlname: meetup_group_url)
       Right(Meetup::Group.find(urlname: meetup_group_url))
     else
-      Left(Error.new(400, "Group (url: #{meetup_group_url}) could not be found")) # halt 400
+      Left(Error.new(:bad_request, "Group (url: #{meetup_group_url}) could not be found")) # halt 400
     end
   end
 end

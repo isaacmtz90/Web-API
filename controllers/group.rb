@@ -13,10 +13,15 @@ class EventsLocatorAPI < Sinatra::Base
     response = Meetup::MeetupApi.get_groups(countrycode, locationtext)
 
     # Check if first result matches provided country code, 404 if not
-    CheckResponse.call(response, countrycode, locationtext)
+    result = CheckResponse.call(response, countrycode, locationtext)
 
     content_type 'application/json'
-    response.to_json
+    if result.success?
+      response.to_json
+    else
+      ErrorRepresenter.new(result.value).to_status_response
+    end
+
   end
 
   # Body args (JSON) e.g.: {"url": "http://meetup.com/urlname"}
@@ -24,12 +29,23 @@ class EventsLocatorAPI < Sinatra::Base
     body_params = JSON.parse request.body.read
     meetup_group_url = body_params['url']
 
-    CheckDatabase.call(meetup_group_url) #if url already in DB, will throw error 422
-    meetup_group = CheckAPI.call(meetup_group_url) #if WebAPI cannot find url, will throw error 400
-
-    group = SaveGroupToDatabase.call(meetup_group) #if this cannot create group in DB, wil throw error 500
-
     content_type 'application/json'
-    GroupRepresenter.new(group).to_json #display group in JSON
+
+    result = CheckDatabase.call(meetup_group_url) #if url already in DB, will throw error 422
+    if result.success?
+      meetup_group = CheckAPI.call(meetup_group_url) #if WebAPI cannot find url, will throw error 400
+      if meetup_group.success?
+        group = SaveGroupToDatabase.call(meetup_group.value) #if this cannot create group in DB, wil throw error 500
+        if group.success?
+          GroupRepresenter.new(group.value).to_json #display group in JSON
+        else
+          ErrorRepresenter.new(group.value).to_status_response
+        end
+      else
+        ErrorRepresenter.new(meetup_group.value).to_status_response
+      end
+    else
+      ErrorRepresenter.new(result.value).to_status_response
+    end
   end
 end

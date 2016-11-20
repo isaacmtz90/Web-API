@@ -12,7 +12,7 @@ class SaveGroupToDatabase
     if group
       Right(group)
     else
-      Left(Error.new(500, "Cannot create group"))
+      Left(Error.new(:internal_error, "Cannot create group"))
     end
   end
 end

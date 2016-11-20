@@ -6,7 +6,7 @@ class CheckDatabase
 
   def self.call(meetup_group_url)
     if Group.find(urlname: meetup_group_url)
-      Left(Error.new(422, "Group #{meetup_group_url} already exists")) # halt 422
+      Left(Error.new(:cannot_process, "Group #{meetup_group_url} already exists")) # halt 422
     else
       Right() # do nothing!
     end
