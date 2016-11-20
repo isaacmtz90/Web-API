@@ -13,9 +13,11 @@ class EventsLocatorAPI < Sinatra::Base
     longitude = params[:lon]
     begin
       response = Meetup::MeetupApi.get_events(latitude, longitude)
-
+      
       content_type 'application/json'
-      response.to_json
+      #response.to_json
+      EventsLocatorAPI.new(response).to_json
+
     rescue
       halt 404, "Events at location (lan:#{latitude} , lon:#{longitude}) not found!"
     end
