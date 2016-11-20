@@ -9,7 +9,7 @@ class CheckResponse
     if parsed_response.first['country'] != countrycode.upcase
       Left(Error.new(:not_found, "Groups at#{countrycode} at#{locationtext} not found!"))
     else
-      Right() # do nothing!
+      Right(response) # do nothing!
     end
   end
 end

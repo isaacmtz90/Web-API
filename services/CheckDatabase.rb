@@ -8,7 +8,7 @@ class CheckDatabase
     if Group.find(urlname: meetup_group_url)
       Left(Error.new(:cannot_process, "Group #{meetup_group_url} already exists")) # halt 422
     else
-      Right() # do nothing!
+      Right(Group.find(urlname: meetup_group_url)) # do nothing!
     end
   end
 end
