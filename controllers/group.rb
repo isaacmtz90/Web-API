@@ -9,21 +9,16 @@ class EventsLocatorAPI < Sinatra::Base
   get "/#{API_VER}/groups/:countrycode/:locationtextquery/?" do
     countrycode = params[:countrycode]
     locationtext = params[:locationtextquery]
-    begin
-      response = Meetup::MeetupApi.get_groups(countrycode, locationtext)
 
-      # Check if first result matches provided country code, 404 if not
-      parsed_response = JSON.parse(response.to_json)
-      if parsed_response.first['country'] != countrycode.upcase
-        raise 'country code does not match to query'
-      end
+    response = Meetup::MeetupApi.get_groups(countrycode, locationtext)
 
-      content_type 'application/json'
-      response.to_json
-    rescue
-      halt 404, "Groups at#{countrycode} at#{locationtext} not found!"
-    end
+    # Check if first result matches provided country code, 404 if not
+    CheckResponse.call(response, countrycode, locationtext)
+
+    content_type 'application/json'
+    response.to_json
   end
+
   # Body args (JSON) e.g.: {"url": "http://meetup.com/urlname"}
   post "/#{API_VER}/group/" do
     body_params = JSON.parse request.body.read

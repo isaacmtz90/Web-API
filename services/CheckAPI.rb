@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# check whether group already exists in database
+# check given group (url) in the WebAPI
 class CheckAPI
   extend Dry::Monads::Either::Mixin
 
@@ -10,6 +10,5 @@ class CheckAPI
     else
       Left(Error.new(400, "Group (url: #{meetup_group_url}) could not be found")) # halt 400
     end
-
   end
 end

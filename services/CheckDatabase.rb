@@ -8,8 +8,7 @@ class CheckDatabase
     if Group.find(urlname: meetup_group_url)
       Left(Error.new(422, "Group #{meetup_group_url} already exists")) # halt 422
     else
-      Right() #do nothing?!
+      Right() # do nothing!
     end
-
   end
 end
