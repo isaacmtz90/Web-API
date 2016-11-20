@@ -139,7 +139,9 @@ DEPENDENCIES
   meetupevents
   minitest
   minitest-rg
+
   multi_json
+
   pg
   pry-byebug
   puma
