@@ -45,11 +45,7 @@ class EventsLocatorAPI < Sinatra::Base
                            country_code: meetup_group.country)
 
       content_type 'application/json'
-      { group_id: group.id,
-        name: group.group_name,
-        urlname: group.urlname,
-        city: group.city,
-        country_code: group.country_code }.to_json
+      GroupRepresenter.new(group).to_json
     rescue
       content_type 'text/plain'
       halt 500, "Cannot create group (id: #{meetup_group_url})"
