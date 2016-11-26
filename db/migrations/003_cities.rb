@@ -2,12 +2,12 @@ require 'sequel'
 
 Sequel.migration do
   change do
-    create_table(:groups) do
+    create_table(:cities) do
       primary_key :id
-      String :group_name
       String :country_code
-      String :city
-      String :urlname
+      Float :lat
+      Float :lon
+      String :name
     end
   end
 end
