@@ -2,7 +2,9 @@
 require 'sinatra'
 require 'econfig'
 require 'meetupevents'
+require_relative './config/environment.rb'
 
+# Main class
 class EventsLocatorAPI < Sinatra::Base
   extend Econfig::Shortcut
 
@@ -57,6 +59,26 @@ class EventsLocatorAPI < Sinatra::Base
       response.to_json
     rescue
       halt 404, "Events at location (lan:#{latitude} , lon:#{longitude}) not found!"
+    end
+  end
+
+  post "/#{API_VER}/events/?" do
+    begin
+      #
+    rescue
+      #
+    end
+  end
+
+  # Give user the possibility of creating and add a new event manually??
+  put "/#{API_VER}/events/:name&:countrycode&:city/?" do
+    event_name = params[:name]
+    country = params[:countrycode]
+    city = params[:city]
+    begin
+      #
+    rescue
+      #
     end
   end
 end

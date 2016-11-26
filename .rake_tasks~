@@ -1,3 +1,5 @@
+db:migrate
+db:reset
 quality:all
 spec
 wipe

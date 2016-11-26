@@ -1,2 +1,4 @@
 config/app.yml
 config/secrets.yml
+db/*.*
+.bundle/
