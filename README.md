@@ -9,11 +9,14 @@ Search events by location:
 api/v0.1/events/meetup/#{LAT}&#{LON}"
 
 
-Search groups by Text:
-api/v0.1/groups/meetup/#{COUNTRY_CODE}/#{LOCATION_TEXT}
+Search cities:
+api/v0.1/cities
+
+Search a city: 
+{Coming soon}
 
 Example:
-api/v0.1/groups/meetup/TW/Taipei
+api/v0.1/city/1/events
 
 
 Online version:

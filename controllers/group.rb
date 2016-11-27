@@ -1,8 +1,4 @@
 # frozen_string_literal: true
-require 'sinatra'
-require 'econfig'
-require 'meetupevents'
-require_relative '../config/environment.rb'
 
 class EventsLocatorAPI < Sinatra::Base
   # route to find groups based on coutry code and location text

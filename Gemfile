@@ -7,10 +7,7 @@ gem 'json'
 gem 'econfig'
 gem 'rake'
 gem 'http'
-gem 'sequel'
 
-# refactoring gems
-gem 'roar'
 gem 'multi_json'
 gem 'dry-monads'
 gem 'dry-container'
@@ -19,9 +16,6 @@ gem 'dry-transaction'
 gem 'meetupevents'
 gem 'sequel'
 gem 'roar'
-gem 'dry-monads'
-gem 'dry-container'
-gem 'dry-transaction'
 
 group :development, :test do
   gem 'sqlite3'
@@ -39,10 +33,6 @@ group :test do
   gem 'rack-test'
   gem 'vcr'
   gem 'webmock'
-end
-
-group :production do
-  gem 'pg'
 end
 
 group :development, :production do

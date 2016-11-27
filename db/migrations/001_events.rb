@@ -5,11 +5,15 @@ Sequel.migration do
     create_table(:events) do
       primary_key :id
       foreign_key :group_id
+      foreign_key :city_id
       String :event_name
-      String :country_code
+      String :event_url
+      String :origin
+      String :status
       Float :lat
       Float :lon
-      String :city
+      String :venue
+      DateTime :time
     end
   end
 end
