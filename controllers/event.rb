@@ -6,8 +6,8 @@ class EventsLocatorAPI < Sinatra::Base
 
   get "/#{API_VER}/city/:id/events/?" do
     results = SearchByCity.call(params)
+    content_type 'application/json'
     if results.success?
-      print results.value
       EventsRepresenter.new(results.value).to_json
     else
       ErrorRepresenter.new(results.value).to_status_response
@@ -23,7 +23,7 @@ class EventsLocatorAPI < Sinatra::Base
       content_type 'application/json'
       return EventsRepresenter.new(response)
     rescue
-      return Error.new(:not_found,"Events at location (lan:#{latitude},lon:#{longitude}) not found!")
+      return Error.new(:not_found, "Events at location (lan:#{latitude},lon:#{longitude}) not found!")
     end
   end
 end

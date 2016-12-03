@@ -6,7 +6,6 @@ class SearchByCity
   extend Dry::Container::Mixin
 
   register :find_city, lambda { |params|
-    print params
     city = City.find(id: params[:id])
     if city
       Right(city)

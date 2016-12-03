@@ -7,11 +7,12 @@ class EventRepresenter < Roar::Decorator
   property :id
   property :city_id, type: String
   property :event_name
-  property :event_url
+  property :url
   property :origin
   property :status
   property :venue
   property :lat
   property :lon
+  property :topic
   property :time, type: String
 end

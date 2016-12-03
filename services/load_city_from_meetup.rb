@@ -9,7 +9,6 @@ class LoadCityFromMeetup
 
   register :validate_request_json, lambda { |request_body|
     begin
-      print request_body
       url_representation = CityRequestRepresenter.new(UrlRequest.new)
       Right(url_representation.from_json(request_body))
     rescue
@@ -18,22 +17,30 @@ class LoadCityFromMeetup
   }
 
   register :validate_request_url, lambda { |body_params|
-    print body_params
+    # print body_params
     if (city = body_params['city'] || body_params['country_code']).nil?
       Left(Error.new(:cannot_process, 'Could not load city/country of request'))
     else
-      Right(city: city, country: body_params['country_code'])
+      topic = body_params.member?(:topic) ? body_params[:topic] : 'none'
+      Right(city: city, country: body_params['country_code'], topic: topic)
     end
   }
 
   register :retrieve_meetup_events_bycity, lambda { |params|
-    print params
-    if (city_ev = Meetup::LocatedEvents.new(city: params[:city],
-                                            country: params[:country],
-                                            topic: 'none')).nil?
+    # print params
+    begin
+      city_ev = Meetup::LocatedEvents.new(city: params[:city],
+                                          country: params[:country],
+                                          topic: params[:topic])
+    rescue
       Left(Error.new(:cannot_process, 'City doesnt contain events'))
     else
-      Right(city: params[:city], country: params[:country], events: city_ev.events)
+      if city_ev.nil?
+        Left(Error.new(:cannot_process, 'City doesnt contain events'))
+      else
+        Right(city: params[:city], country: params[:country],
+              events: city_ev.events, topic: params[:topic])
+      end
     end
   }
 
@@ -41,14 +48,14 @@ class LoadCityFromMeetup
     if City.find(country_code: prm[:country], name: prm[:city])
       Left(Error.new(:cannot_process, 'City already on DB'))
     else
-      Right(city: prm[:city], country: prm[:country])
+      Right(city: prm[:city], country: prm[:country], topic: prm[:topic])
     end
   }
   # TODO: Change to get city from meetup API
   register :create_city_and_events, lambda { |prm|
     city = City.create(name: prm[:city], country_code: prm[:country])
     prm[:events].each do |event|
-      write_city_event(city, event)
+      write_city_event(city, event, prm[:topic])
     end
     Right(city)
   }
@@ -63,14 +70,16 @@ class LoadCityFromMeetup
     end.call(params)
   end
 
-  def self.write_city_event(city, event)
+  def self.write_city_event(city, event, topic)
     city.add_event(
       event_name:          event.name,
       origin:              'meetup',
+      url:                 event.url,
       status:              event.status,
       venue:               event.venue,
-      time:                event.time,
+      time:                Time.at(event.time),
       lat:                 event.location&.lat,
+      topic:               event.topic,
       lon:                 event.location&.lon
     )
   end

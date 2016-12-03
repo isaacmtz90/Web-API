@@ -6,5 +6,6 @@ class CityRequestRepresenter < Roar::Decorator
   include Roar::JSON
 
   property :city
+  property :topic
   property :country_code
 end

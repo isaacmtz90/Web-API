@@ -17,7 +17,10 @@ end
 FIXTURES_FOLDER = 'spec/fixtures'
 CASSETTES_FOLDER = "#{FIXTURES_FOLDER}/cassettes"
 MEETUP_CASSETTE = 'Meetup'
-
+def delete_db_data
+  DB[:cities].delete
+  DB[:events].delete
+end
 VCR.configure do |c|
   c.cassette_library_dir = CASSETTES_FOLDER
   c.hook_into :webmock
