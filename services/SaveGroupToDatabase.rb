@@ -3,6 +3,7 @@
 # save group into database
 class SaveGroupToDatabase
   extend Dry::Monads::Either::Mixin
+  extend Dry::Container::Mixin
 
   register :save_group_to_database, lambda { |meetup_group|
     group = Group.create(group_name: meetup_group.name,
