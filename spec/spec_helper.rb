@@ -35,3 +35,23 @@ VCR.configure do |c|
 
   c.filter_sensitive_data('<MEETUP_API_KEY>') { ENV['MEETUP_API_KEY'] }
 end
+
+# Taipei City Real LAT & LON
+HAPPY_LAT = 25
+HAPPY_LON = 121
+
+# Taipei City Fake LAT & LON
+SAD_LAT = 1000
+SAD_LON = 1000
+
+# Real code country and location text query
+HAPPY_COUNTRY_CODE = 'TW'
+HAPPY_CITY_TEXT = 'Taipei'
+
+# Real and fake groups urls
+HAPPY_GROUP_URL = 'Hiking-and-Riding-in-Taipei'
+SAD_GROUP_URL = 'xxxzzzzfff'
+
+# Fake country code and non-related location text
+SAD_COUNTRY_CODE = 'WT' # should be "SG"
+SAD_CITY_TEXT = 'Asljn'

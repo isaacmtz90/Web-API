@@ -77,9 +77,10 @@ class LoadCityFromMeetup
       url:                 event.url,
       status:              event.status,
       venue:               event.venue,
-      time:                Time.at(event.time),
+      time:                Time.at(event.time / 1000),
       lat:                 event.location&.lat,
       topic:               event.topic,
+      description:         event.description,
       lon:                 event.location&.lon
     )
   end
