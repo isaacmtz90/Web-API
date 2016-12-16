@@ -14,5 +14,6 @@ class EventRepresenter < Roar::Decorator
   property :lat
   property :lon
   property :topic
+  property :description
   property :time, type: String
 end

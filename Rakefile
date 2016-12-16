@@ -28,7 +28,6 @@ namespace :run do
   end
 end
 
-
 namespace :db do
   task :_setup do
     require 'sequel'
