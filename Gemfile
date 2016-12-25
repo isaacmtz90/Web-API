@@ -12,7 +12,7 @@ gem 'multi_json'
 gem 'dry-monads'
 gem 'dry-container'
 gem 'dry-transaction'
-
+gem 'every8d'
 gem 'meetupevents'
 gem 'sequel'
 gem 'roar'

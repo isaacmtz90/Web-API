@@ -1,0 +1,13 @@
+---
+  development:
+    MEETUP_API_KEY: '2222222222222222222222222222222'
+    EVERY8D_ACCOUNT: '0000000000'
+    EVERY8D_PW: '5555'
+  test:
+    MEETUP_API_KEY: '2222222222222222222222222222222'
+    EVERY8D_ACCOUNT: '0000000000'
+    EVERY8D_PW: '5555'
+
+    # Make a copy of this file
+    # Add your meetup api_key  and Every8d account number and password
+    # Rename the file to app.yml
