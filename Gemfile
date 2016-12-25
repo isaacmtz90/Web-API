@@ -16,6 +16,8 @@ gem 'every8d'
 gem 'meetupevents'
 gem 'sequel'
 gem 'roar'
+gem'shoryuken'
+gem 'aws-sdk'
 
 group :development, :test do
   gem 'sqlite3'

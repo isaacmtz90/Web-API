@@ -26,7 +26,7 @@ class SendConfirmationSMS
 
   register :sendSMS, lambda { |params|
     begin
-      print params
+      # print params
       message = params[1]
       account_sid = EventsLocatorAPI.config.EVERY8D_ACCOUNT
       account_pwd = EventsLocatorAPI.config.EVERY8D_PW
@@ -35,17 +35,26 @@ class SendConfirmationSMS
         MSG: message.to_s,
         DEST: params[0].to_s
       )
-      Right('sms sent')
+      Right(params)
+    rescue
+      Left(Error.new(:internal_error, 'Cannot send sms'))
+    end
+  }
+  register :storeNotificationDB, lambda { |params|
+    begin
+      noti = Notification.create(to: params[0], message: param[1])
+      Right(noti)
     rescue
       Left(Error.new(:internal_error, 'Cannot send sms'))
     end
   }
 
-  def self.call(meetup_group)
+  def self.call(notification)
     Dry.Transaction(container: self) do
       step :validate_request_json
       step :check_input
       step :sendSMS
-    end.call(meetup_group)
+      step :storeNotificationDB
+    end.call(notification)
   end
 end

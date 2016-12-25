@@ -1,0 +1,2 @@
+queues:
+  - [evtmap_dev_q, 1]

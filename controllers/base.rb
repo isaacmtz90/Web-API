@@ -4,6 +4,14 @@
 class EventsLocatorAPI < Sinatra::Base
   extend Econfig::Shortcut
 
+  Shoryuken.configure_server do |config|
+    config.aws = {
+      access_key_id:      config.AWS_ACCESS_KEY_ID,
+      secret_access_key:  config.AWS_SECRET_ACCESS_KEY,
+      region:             config.AWS_REGION
+    }
+  end
+
   API_VER = 'api/v0.1'
 
   configure do
@@ -11,13 +19,6 @@ class EventsLocatorAPI < Sinatra::Base
     Econfig.root = File.expand_path('..', settings.root)
     Meetup::MeetupApi.config.update(access_key: config.MEETUP_API_KEY)
 
-    # this is not working! will get 'invalid api key' error in the WebAPI routes responses...
-    # the code bellow somehow doesn't define MEETUP_API_KEY environment variable for our meetupevents gem to use
-    Meetup::MeetupApi
-      .config
-      .update(access_key: EventsLocatorAPI.config.MEETUP_API_KEY)
-
-    # this is the fix for problem stated above
     # manually define MEETUP_API_KEY environment variable from credentials stored at config/app.yml
     ENV['MEETUP_API_KEY'] = EventsLocatorAPI.config.MEETUP_API_KEY
   end
