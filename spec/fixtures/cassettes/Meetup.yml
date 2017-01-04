@@ -1,0 +1,109 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://api.meetup.com/2/open_events?city=Taipei&country=TW&key=<MEETUP_API_KEY>&signed=true
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Connection:
+      - close
+      Host:
+      - api.meetup.com
+      User-Agent:
+      - http.rb/2.1.0
+  response:
+    status:
+      code: 429
+      message: Too Many Requests
+    headers:
+      Date:
+      - Wed, 04 Jan 2017 19:37:45 GMT
+      Content-Type:
+      - application/json;charset=utf-8
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - close
+      Set-Cookie:
+      - __cfduid=db8eb6bb65827e86ca1a24ac0882dfeed1483558664; expires=Thu, 04-Jan-18
+        19:37:44 GMT; path=/; domain=.meetup.com; HttpOnly
+      X-Meetup-Server:
+      - api17
+      X-Meetup-Request-Id:
+      - 6afcb4c1-c60d-48c8-978e-0be5533dd3bf
+      X-Ratelimit-Limit:
+      - '30'
+      X-Ratelimit-Remaining:
+      - '0'
+      X-Ratelimit-Reset:
+      - '1335'
+      Vary:
+      - Accept-Encoding,User-Agent,Accept-Language
+      Server:
+      - cloudflare-nginx
+      Cf-Ray:
+      - 31c1259549e145d8-TPE
+    body:
+      encoding: UTF-8
+      string: '{"details":"Credentials have be throttled more than the allowed times
+        in one hour","code":"blocked","problem":"Client throttled"}
+
+'
+    http_version: 
+  recorded_at: Wed, 04 Jan 2017 19:37:45 GMT
+- request:
+    method: get
+    uri: https://api.meetup.com/2/open_events?city=Asljn&country=WT&key=<MEETUP_API_KEY>&signed=true
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Connection:
+      - close
+      Host:
+      - api.meetup.com
+      User-Agent:
+      - http.rb/2.1.0
+  response:
+    status:
+      code: 429
+      message: Too Many Requests
+    headers:
+      Date:
+      - Wed, 04 Jan 2017 19:37:46 GMT
+      Content-Type:
+      - application/json;charset=utf-8
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - close
+      Set-Cookie:
+      - __cfduid=dcb028391dc83f4c10e80c501843a2aa71483558665; expires=Thu, 04-Jan-18
+        19:37:45 GMT; path=/; domain=.meetup.com; HttpOnly
+      X-Meetup-Server:
+      - api10
+      X-Meetup-Request-Id:
+      - 7a80936e-c61e-4cc7-a624-a1c6cb60f6f4
+      X-Ratelimit-Limit:
+      - '30'
+      X-Ratelimit-Remaining:
+      - '0'
+      X-Ratelimit-Reset:
+      - '1334'
+      Vary:
+      - Accept-Encoding,User-Agent,Accept-Language
+      Server:
+      - cloudflare-nginx
+      Cf-Ray:
+      - 31c1259bdeb24656-TPE
+    body:
+      encoding: UTF-8
+      string: '{"details":"Credentials have be throttled more than the allowed times
+        in one hour","code":"blocked","problem":"Client throttled"}
+
+'
+    http_version: 
+  recorded_at: Wed, 04 Jan 2017 19:37:46 GMT
+recorded_with: VCR 3.0.3

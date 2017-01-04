@@ -17,7 +17,7 @@ class SearchByText
   register :search_events, lambda { |text|
     events = Event.where(
       Sequel.join([:event_name, :description, :venue]).ilike("%#{text}%")
-    ).all
+    ).join(:cities).all
     if events.count.positive?
       Right(Events.new(events))
     else
