@@ -2,6 +2,7 @@
 require 'sinatra'
 require 'econfig'
 require 'meetupevents'
+require 'shoryuken'
 
 require_relative 'base'
 

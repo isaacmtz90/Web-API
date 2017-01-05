@@ -1,2 +1,2 @@
 queues:
-  - [evtmap_dev_q, 1]
+  - [create_city_q_dev, 1]

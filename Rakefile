@@ -89,3 +89,34 @@ namespace :quality do
     sh 'rubocop'
   end
 end
+namespace :queue do
+  require 'aws-sdk'
+  require_relative 'init'
+  desc "Create SQS queue for Shoryuken"
+  task :create do
+    config = EventsLocatorAPI.config
+    sqs = Aws::SQS::Client.new(region: config.AWS_REGION,
+                               access_key_id: config.AWS_ACCESS_KEY_ID,
+                               secret_access_key: config.AWS_SECRET_ACCESS_KEY)
+    begin
+      queue = sqs.create_queue(queue_name: config.NEW_CITY_QUEUE)
+      puts "Queue #{config.NEW_CITY_QUEUE} created on #{config.AWS_REGION}"
+    rescue => e
+      puts "Error creating queue: #{e}"
+    end
+  end
+
+  task :purge do
+    config = FaceGroupAPI.config
+    sqs = Aws::SQS::Client.new(region: config.AWS_REGION,
+                               access_key_id: config.AWS_ACCESS_KEY_ID,
+                               secret_access_key: config.AWS_SECRET_ACCESS_KEY)
+    begin
+      url = sqs.get_queue_url({ queue_name: config.NEW_CITY_QUEUE })
+      queue = sqs.purge_queue({ queue_url: url.queue_url})
+      puts "Queue #{config.NEW_CITY_QUEUE} purged"
+    rescue => e
+      puts "Error purging queue: #{e}"
+    end
+  end
+end
