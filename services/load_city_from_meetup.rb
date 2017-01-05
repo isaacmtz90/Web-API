@@ -7,24 +7,37 @@ class LoadCityFromMeetup
 
   CITY_TEXT_REGEXP = %r{\"\D\"}
 
-  register :validate_request_json, lambda { |request_body|
-    begin
-      url_representation = CityRequestRepresenter.new(UrlRequest.new)
-      Right(url_representation.from_json(request_body))
-    rescue
-      Left(Error.new(:bad_request, 'URL could not be resolved'))
+  register :get_city_from_meetup, lambda { |request_body|
+    city = SearchCityFromMeetup.call(request_body)
+    if city.success?
+      city_obj = city.value[0]
+      city_obj['city'].capitalize!
+      city_obj['country'].upcase!
+      Right(city: city_obj['city'], country: city_obj['country'],
+            lon: city_obj['lon'], lat: city_obj['lat'], topic: 'none')
+    else
+      Left(Error.new(:cannot_process, 'Could not find on meetup'))
     end
   }
 
-  register :validate_request_url, lambda { |body_params|
-    # print body_params
-    if (city = body_params['city'] || body_params['country_code']).nil?
-      Left(Error.new(:cannot_process, 'Could not load city/country of request'))
-    else
-      topic = body_params.member?(:topic) ? body_params[:topic] : 'none'
-      Right(city: city, country: body_params['country_code'], topic: topic)
-    end
-  }
+  # register :validate_request_json, lambda { |request_body|
+  #   begin
+  #     url_representation = CityRequestRepresenter.new(UrlRequest.new)
+  #     Right(url_representation.from_json(request_body))
+  #   rescue
+  #     Left(Error.new(:bad_request, 'URL could not be resolved'))
+  #   end
+  # }
+  #
+  # register :validate_request_url, lambda { |body_params|
+  #   # print body_params
+  #   if (city = body_params['city'] || body_params['country_code']).nil?
+  #     Left(Error.new(:cannot_process, 'Could not load city/country of request'))
+  #   else
+  #     topic = body_params.member?(:topic) ? body_params[:topic] : 'none'
+  #     Right(city: city, country: body_params['country_code'], topic: topic)
+  #   end
+  # }
 
   register :retrieve_meetup_events_bycity, lambda { |params|
     # print params
@@ -38,8 +51,8 @@ class LoadCityFromMeetup
       if city_ev.nil?
         Left(Error.new(:cannot_process, 'City doesnt contain events'))
       else
-        Right(city: params[:city], country: params[:country],
-              events: city_ev.events, topic: params[:topic])
+        Right(city: params[:city], country: params[:country], lat: params[:lat],
+              events: city_ev.events, topic: params[:topic], lon: params[:lon])
       end
     end
   }
@@ -48,12 +61,14 @@ class LoadCityFromMeetup
     if City.find(country_code: prm[:country], name: prm[:city])
       Left(Error.new(:cannot_process, 'City already on DB'))
     else
-      Right(city: prm[:city], country: prm[:country], topic: prm[:topic])
+      Right(city: prm[:city], country: prm[:country], topic: prm[:topic],
+            lon: prm[:lon], lat: prm[:lat])
     end
   }
   # TODO: Change to get city from meetup API
   register :create_city_and_events, lambda { |prm|
-    city = City.create(name: prm[:city], country_code: prm[:country])
+    city = City.create(name: prm[:city], country_code: prm[:country],
+                       lon: prm[:lon], lat: prm[:lat])
     prm[:events].each do |event|
       write_city_event(city, event, prm[:topic])
     end
@@ -62,8 +77,7 @@ class LoadCityFromMeetup
 
   def self.call(params)
     Dry.Transaction(container: self) do
-      step :validate_request_json
-      step :validate_request_url
+      step :get_city_from_meetup
       step :validate_database_existence
       step :retrieve_meetup_events_bycity
       step :create_city_and_events

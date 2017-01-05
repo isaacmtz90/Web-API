@@ -19,7 +19,7 @@ class EventsLocatorAPI < Sinatra::Base
   post "/#{API_VER}/cities/search/?" do
     result = SearchCityFromMeetup.call(request.body.read)
     if result.success?
-      CitiesRepresenter.new(result.value).to_json
+      result.value.to_json
     else
       ErrorRepresenter.new(result.value).to_status_response
     end
