@@ -6,5 +6,7 @@ class NotificationRequestRepresenter < Roar::Decorator
   include Roar::JSON
 
   property :to
-  property :message
+  property :event_name
+  property :from
+  property :event_id
 end

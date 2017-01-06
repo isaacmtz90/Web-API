@@ -1,2 +1,2 @@
 queues:
-  - [create_city_q_dev, 1]
+  - [create_city_q, 1]

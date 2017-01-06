@@ -72,7 +72,7 @@ class LoadCityFromMeetup
     prm[:events].each do |event|
       write_city_event(city, event, prm[:topic])
     end
-    Right(city)
+    Right(HttpResult.new(:success, "City created"))
   }
 
   def self.call(params)
