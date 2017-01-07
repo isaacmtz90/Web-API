@@ -18,7 +18,7 @@ gem 'sequel'
 gem 'roar'
 gem'shoryuken'
 gem 'aws-sdk'
-
+gem 'google_url_shortener'
 group :development, :test do
   gem 'sqlite3'
 end

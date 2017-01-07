@@ -51,12 +51,21 @@ class QueueInvitationSMS
                                  region: config.AWS_REGION)
       q_url = sqs.get_queue_url(queue_name: config.SMS_NOTI_QUEUE).queue_url
       api_url = "#{config.API_URL}/#{config.API_VER}"
+      app_url = config.APP_URL
+      event_id = params[:event_id]
+      # shorten the url with google_url_shortener
+      shorten_url = ShortenUrl.call("#{app_url}/event/#{event_id}")
+      if shorten_url.success?
+        short_url = shorten_url.value
+      else
+        short_url = 'https://goo.gl/FD61SA' #homepage url
+      end
       msg = {
         url: "#{api_url}/invite_sms_send/",
         from: params[:from],
         to: params[:to],
         evt_name: params[:event_name],
-        evt_url: "https://goo.gl/FD61SA"
+        evt_url: short_url
       }.to_json
       puts msg
       res = sqs.send_message(queue_url: q_url, message_body: msg)

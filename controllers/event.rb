@@ -14,6 +14,16 @@ class EventsLocatorAPI < Sinatra::Base
     end
   end
 
+  get "/#{API_VER}/events/by_id/:id" do
+    results = GetEvent.call(params)
+    content_type 'application/json'
+    if results.success?
+      EventRepresenter.new(results.value).to_json
+    else
+      ErrorRepresenter.new(results.value).to_status_response
+    end
+  end
+
   get "/#{API_VER}/city/:id/events/?" do
     results = SearchByCity.call(params)
     content_type 'application/json'
