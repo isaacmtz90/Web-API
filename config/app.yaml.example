@@ -1,15 +1,35 @@
 ---
   development:
-    MEETUP_API_KEY: '2222222222222222222222222222222'
-    EVERY8D_ACCOUNT: '0000000000'
-    EVERY8D_PW: '5555'
-  test:
-    MEETUP_API_KEY: '2222222222222222222222222222222'
-    EVERY8D_ACCOUNT: '0000000000'
-    EVERY8D_PW: '5555'
+    MEETUP_API_KEY: 'xxxxxxxx'
+    API_URL: 'http://localhost:9292'
+    APP_URL: 'http://localhost:9000'
+    API_VER: 'api/v0.1'
+    EVERY8D_ACCOUNT: 'xxxxx'
+    EVERY8D_PW: 'xxxx'
+    AWS_ACCESS_KEY_ID: 'xxxxxxx'
+    AWS_SECRET_ACCESS_KEY: 'xxxxxx'
+    AWS_REGION: 'ap-northeast-1'
+    NEW_CITY_QUEUE: 'create_city_q'
+    SMS_NOTI_QUEUE: 'send_sms_q'
+    GOOGLE_API_KEY: 'xxxxxxx'
 
-    get Every8d credentials from : http://tw.every8d.com/E8DPortal/index.aspx
-    
+  test:
+    MEETUP_API_KEY: 'xxxxxxxx'
+    API_URL: 'http://localhost:9292'
+    APP_URL: 'http://localhost:9000'
+    API_VER: 'api/v0.1'
+    EVERY8D_ACCOUNT: 'xxxxx'
+    EVERY8D_PW: 'xxxx'
+    AWS_ACCESS_KEY_ID: 'xxxxxxx'
+    AWS_SECRET_ACCESS_KEY: 'xxxxxx'
+    AWS_REGION: 'ap-northeast-1'
+    NEW_CITY_QUEUE: 'create_city_q'
+    SMS_NOTI_QUEUE: 'send_sms_q'
+    GOOGLE_API_KEY: 'xxxxxxx'
+
+    #get Every8d credentials from : http://tw.every8d.com/E8DPortal/index.aspx
+    # Google api key for creating shortened urls. https://console.developers.google.com/apis/credentials 
+    # create your AWS credentials on https://console.aws.amazon.com
     # Make a copy of this file
     # Add your meetup api_key  and Every8d account number and password
     # Rename the file to app.yml
