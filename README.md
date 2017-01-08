@@ -4,16 +4,39 @@
 
 ### Prerequisites
 
-What things you need to install the software and how to install them
+Please Run
+```
+Bundle Install
+```
+Get an Authorization Code from MeetUp (https://www.meetup.com/meetup_api/)
+
+GO to config/secrets.yml and add your API_KEY.
+```
+ development:
+   MEETUP_API_KEY: ''
+ test:
+   MEETUP_API_KEY: ''
+```
+Get a set of your AWS credentials
 
 
 ## Getting Started
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
+To run the API please use the command
+```
+rackup
+```
+
+## API Usage
 
 Search events by location:
 ```
 api/v0.1/events/meetup/#{LAT}&#{LON}
+```
+
+Search events by City ID
+```
+api/v0.1/city/:id/events/?
 ```
 
 Search cities:
