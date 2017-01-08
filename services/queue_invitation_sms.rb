@@ -26,23 +26,7 @@ class QueueInvitationSMS
     end
   }
 
-  # register :sendSMS, lambda { |params|
-  #   begin
-  #     # print params
-  #     message = params[1]
-  #     account_sid = EventsLocatorAPI.config.EVERY8D_ACCOUNT
-  #     account_pwd = EventsLocatorAPI.config.EVERY8D_PW
-  #     @client = Every8d::Client.new(UID: account_sid, PWD: account_pwd)
-  #     @client.send_sms(
-  #       MSG: message.to_s,
-  #       DEST: params[0].to_s
-  #     )
-  #     Right(params)
-  #   rescue
-  #     Left(Error.new(:internal_error, 'Cannot send sms'))
-  #   end
-  # }
-  register :sendToQueue, lambda { |params|
+  register :send_to_queue, lambda { |params|
     begin
       puts 'Sending to sms queue'
       config = EventsLocatorAPI.config
@@ -67,9 +51,7 @@ class QueueInvitationSMS
         evt_name: params[:event_name],
         evt_url: short_url
       }.to_json
-      puts msg
       res = sqs.send_message(queue_url: q_url, message_body: msg)
-      puts res.inspect
       Right(params)
     rescue => e
       puts e
@@ -77,7 +59,7 @@ class QueueInvitationSMS
     end
   }
 
-  register :storeNotificationDB, lambda { |params|
+  register :store_invitation_db, lambda { |params|
     begin
       noti = Notification.create(to: params[:to],
                                  from: params[:from],
@@ -94,8 +76,8 @@ class QueueInvitationSMS
     Dry.Transaction(container: self) do
       step :validate_request_json
       step :check_input
-      step :sendToQueue
-      step :storeNotificationDB
+      step :send_to_queue
+      step :store_invitation_db
     end.call(notification)
   end
 end

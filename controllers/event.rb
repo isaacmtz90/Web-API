@@ -4,7 +4,7 @@ class EventsLocatorAPI < Sinatra::Base
   # route to find events based on location defined by
   # latitude[-90<>90] & longitude[-180<>180]
 
-  get "/#{API_VER}/events/search/:term" do
+  get "/#{API_VER}/events/search/:city/:term" do
     results = SearchByText.call(params)
     content_type 'application/json'
     if results.success?
