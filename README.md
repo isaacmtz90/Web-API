@@ -17,7 +17,7 @@ GO to config/secrets.yml and add your API_KEY.
  test:
    MEETUP_API_KEY: ''
 ```
-Get a set of your AWS credentials
+Get a set of your AWS, Google and Every8D credentials
 
 
 ## Getting Started
@@ -29,12 +29,12 @@ rackup
 
 ## API Usage
 
-Search events by location:
+Search events by City id (use 0 for "all") and Query:
 ```
-api/v0.1/events/meetup/#{LAT}&#{LON}
+api/v0.1/events/search/:city_id/:query
 ```
 
-Search events by City ID
+Search events by City
 ```
 api/v0.1/city/:id/events/?
 ```
@@ -57,10 +57,9 @@ api/v0.1/city/1/events
 http://meetup-event-mapper.herokuapp.com/
 
 # License
+MIT LICENSE
 
-The MIT License (MIT)
-
-Copyright (c) 2013-2016 Petka Antonov
+Copyright (c) Team Seis, SOA <imtz0b@gmail.com>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -74,7 +73,7 @@ all copies or substantial portions of the Software.
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL THE
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
 AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
